@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CraftWatch | Minecraft Server</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOGIN -->
+<section id="loginScreen" class="login-screen">
+    <div class="login-left">
+        <div class="brand">◆ CRAFTWATCH</div>
+
+        <div class="login-description">
+            <span>SERVER CONTROL CENTER</span>
+            <h1>Seu servidor.<br><strong>Seu controle.</strong></h1>
+            <p>Monitore jogadores, acompanhe eventos e controle seu mundo em um só lugar.</p>
+        </div>
+
+        <small>MINECRAFT SERVER LOG ANALYZER</small>
+    </div>
+
+    <div class="login-right">
+        <form id="loginForm">
+            <div class="mobile-brand">◆ CRAFTWATCH</div>
+            <span class="subtitle">ÁREA RESTRITA</span>
+            <h2>Bem-vindo de volta</h2>
+            <p>Entre com sua conta de administrador.</p>
+
+            <label>E-mail</label>
+            <input type="email" id="email" placeholder="admin@servidor.com" required>
+
+            <label>Senha</label>
+            <input type="password" id="password" placeholder="Sua senha" required>
+
+            <p id="loginError" class="error"></p>
+
+            <button type="submit" class="primary-button">
+                Entrar no painel →
+            </button>
+
+            <small class="demo">
+                DEMO: admin@craftwatch.local / admin123
+            </small>
+        </form>
+    </div>
+</section>
+
+<!-- APLICAÇÃO -->
+<div id="app" class="app hidden">
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">◆ CRAFTWATCH</div>
+        <p class="brand-subtitle">SERVER CONTROL</p>
+
+        <div class="server-box">
+            <span class="online-dot"></span>
+            <div>
+                <strong>Meu servidor Paper</strong>
+                <small>Java Edition</small>
+            </div>
+        </div>
+
+        <span class="menu-title">GERENCIAMENTO</span>
+
+        <nav>
+            <button class="nav-item active" data-page="overview">▦ Visão geral</button>
+            <button class="nav-item" data-page="logs">≋ Logs</button>
+            <button class="nav-item" data-page="players">♙ Jogadores</button>
+            <button class="nav-item" data-page="whitelist">✓ Whitelist</button>
+            <button class="nav-item" data-page="terminal">⌘ Terminal</button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="storage-box">
+                <small>ARMAZENAMENTO DE LOGS</small>
+                <div class="progress"><div></div></div>
+                <span>680 MB de 1 GB</span>
+            </div>
+
+            <button id="logoutButton" class="logout">
+                <div class="avatar-letter">G</div>
+                <div>
+                    <strong>Administrador</strong>
+                    <small>Sair da conta</small>
+                </div>
+            </button>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div class="topbar-left">
+                <button id="mobileMenu" class="mobile-menu">☰</button>
+                <div>
+                    <small>PAINEL / <span id="breadcrumb">VISÃO GERAL</span></small>
+                    <h1 id="pageTitle">Visão geral</h1>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <span class="system-online">● Sistema operacional</span>
+                <div class="avatar-letter">G</div>
+            </div>
+        </header>
+
+        <!-- VISÃO GERAL -->
+        <section id="page-overview" class="page">
+
+            <div class="welcome">
+                <div>
+                    <h2>Visão geral do servidor ✳</h2>
+                    <p>Acompanhe o que está acontecendo no seu mundo.</p>
+                </div>
+                <span class="date" id="currentDate"></span>
+            </div>
+
+            <div class="server-banner">
+                <div class="server-icon">▣</div>
+                <div class="server-description">
+                    <small>STATUS DO SERVIDOR</small>
+                    <h3>Servidor Paper <span class="status">● ONLINE</span></h3>
+                    <p>Java Edition · Paper · Ambiente demonstrativo</p>
+                </div>
+
+                <div class="server-info">
+                    <div><small>VERSÃO</small><strong>1.21.x</strong></div>
+                    <div><small>JOGADORES</small><strong>4 / 20</strong></div>
+                    <div><small>UPTIME</small><strong>12h 48m</strong></div>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <div>
+                    <h3>Indicadores principais</h3>
+                    <p>Resumo dos eventos registrados.</p>
+                </div>
+                <span class="filter-label">Últimas 24 horas</span>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <small>JOGADORES ÚNICOS</small>
+                    <h2>24</h2>
+                    <span class="positive">↗ 12% no período</span>
+                </div>
+
+                <div class="stat-card">
+                    <small>EVENTOS REGISTRADOS</small>
+                    <h2>1.284</h2>
+                    <span class="positive">↗ 8,4% no período</span>
+                </div>
+
+                <div class="stat-card">
+                    <small>ENTRADAS NO SERVIDOR</small>
+                    <h2>86</h2>
+                    <span class="positive">↗ 5,2% no período</span>
+                </div>
+
+                <div class="stat-card">
+                    <small>ALERTAS / ERROS</small>
+                    <h2>07</h2>
+                    <span class="negative">↘ 2 no período</span>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Atividade recente</h3>
+                            <p>Últimos eventos registrados.</p>
+                        </div>
+                        <button class="text-button" data-go="logs">Ver todos →</button>
+                    </div>
+
+                    <div id="recentEvents"></div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Jogadores em destaque</h3>
+                            <p>Mais ativos no período.</p>
+                        </div>
+                        <button class="text-button" data-go="players">Ver todos →</button>
+                    </div>
+
+                    <div id="topPlayers"></div>
+                </div>
+            </div>
+
+            <div class="panel quick-panel">
+                <h3>Ações rápidas</h3>
+
+                <button class="quick-action" data-go="whitelist">
+                    ＋ Adicionar à whitelist →
+                </button>
+
+                <button class="quick-action" data-go="terminal">
+                    ⌘ Abrir terminal →
+                </button>
+
+                <button class="quick-action" data-go="logs">
+                    ≋ Consultar logs →
+                </button>
+            </div>
+
+        </section>
+
+        <!-- LOGS -->
+        <section id="page-logs" class="page">
+
+            <div class="page-heading">
+                <div>
+                    <h2>Logs do servidor</h2>
+                    <p>Pesquise e filtre os eventos registrados.</p>
+                </div>
+
+                <button id="exportLogs" class="primary-button">
+                    ↓ Exportar CSV
+                </button>
+            </div>
+
+            <div class="panel filters">
+                <input id="logSearch" placeholder="Buscar jogador, mensagem ou evento...">
+
+                <select id="typeFilter">
+                    <option value="all">Todos os tipos</option>
+                    <option value="INFO">Informações</option>
+                    <option value="WARN">Avisos</option>
+                    <option value="ERROR">Erros</option>
+                    <option value="JOIN">Entradas</option>
+                    <option value="QUIT">Saídas</option>
+                </select>
+
+                <button id="clearFilters" class="secondary-button">Limpar</button>
+            </div>
+
+            <div class="panel table-panel">
+                <div class="panel-header">
+                    <div>
+                        <h3>Eventos registrados</h3>
+                        <p><span id="logCount">0</span> eventos encontrados</p>
+                    </div>
+                    <span class="status">● LOGS IMPORTADOS</span>
+                </div>
+
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>TIPO</th>
+                                <th>HORÁRIO</th>
+                                <th>JOGADOR</th>
+                                <th>MENSAGEM</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logsTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- JOGADORES -->
+        <section id="page-players" class="page">
+
+            <div class="page-heading">
+                <div>
+                    <h2>Jogadores</h2>
+                    <p>Perfis e estatísticas dos jogadores.</p>
+                </div>
+
+                <input id="playerSearch" class="search-input" placeholder="Buscar jogador...">
+            </div>
+
+            <div class="player-summary">
+                <div><small>JOGADORES IDENTIFICADOS</small><strong>24</strong></div>
+                <div><small>ATIVOS (24H)</small><strong>4</strong></div>
+                <div><small>TEMPO TOTAL DE JOGO</small><strong>128h</strong></div>
+            </div>
+
+            <div id="playersGrid" class="players-grid"></div>
+
+            <p class="disclaimer">* Estatísticas ilustrativas. Os dados reais dependerão dos logs disponíveis.</p>
+        </section>
+
+        <!-- WHITELIST -->
+        <section id="page-whitelist" class="page">
+
+            <div class="page-heading">
+                <div>
+                    <h2>Whitelist</h2>
+                    <p>Controle quem pode acessar seu servidor.</p>
+                </div>
+
+                <button id="openAddWhitelist" class="primary-button">
+                    ＋ Adicionar jogador
+                </button>
+            </div>
+
+            <div class="whitelist-banner">
+                <span>✓</span>
+                <div>
+                    <strong>Whitelist ativada</strong>
+                    <p>Somente jogadores autorizados podem entrar.</p>
+                </div>
+                <span class="status">ATIVA</span>
+            </div>
+
+            <div class="panel table-panel">
+                <div class="panel-header">
+                    <div>
+                        <h3>Jogadores autorizados</h3>
+                        <p id="whitelistCount">0 jogadores na lista</p>
+                    </div>
+                    <input id="whitelistSearch" class="search-input" placeholder="Buscar...">
+                </div>
+
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>JOGADOR</th>
+                                <th>ADICIONADO EM</th>
+                                <th>STATUS</th>
+                                <th>AÇÃO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="whitelistTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TERMINAL -->
+        <section id="page-terminal" class="page">
+
+            <div class="page-heading">
+                <div>
+                    <h2>Terminal do servidor</h2>
+                    <p>Visualize mensagens e comandos administrativos.</p>
+                </div>
+                <span class="terminal-status">● SIMULAÇÃO</span>
+            </div>
+
+            <div class="warning">
+                ⚠ Este terminal é apenas visual. Não envia comandos para a hospedagem.
+            </div>
+
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span>● ● ●</span>
+                    <strong>paper-server — console</strong>
+                    <button id="clearTerminal">Limpar</button>
+                </div>
+
+                <div id="terminalOutput" class="terminal-output">
+                    <p>[12:00:00 INFO]: Starting minecraft server version 1.21.x</p>
+                    <p>[12:00:02 INFO]: Loading properties</p>
+                    <p class="terminal-green">[12:00:04 INFO]: Done! For help, type "help"</p>
+                    <p>[12:01:12 INFO]: Gui entrou no jogo</p>
+                    <p>[12:03:45 INFO]: Steve entrou no jogo</p>
+                    <p>[12:08:21 INFO]: Alex saiu do jogo</p>
+                </div>
+
+                <form id="commandForm" class="terminal-form">
+                    <span>›</span>
+                    <input id="commandInput" placeholder="Digite um comando..." autocomplete="off">
+                    <button type="submit">Executar ↗</button>
+                </form>
+            </div>
+
+            <div class="command-shortcuts">
+                <small>COMANDOS RÁPIDOS</small>
+                <button data-command="list">list</button>
+                <button data-command="say Olá, pessoal!">say</button>
+                <button data-command="time set day">time set day</button>
+                <button data-command="weather clear">weather clear</button>
+                <button data-command="save-all">save-all</button>
+            </div>
+        </section>
+
+        <footer>
+            <span>CRAFTWATCH © 2026</span>
+            <span>MINECRAFT SERVER LOG ANALYZER ◆</span>
+        </footer>
+
+    </main>
+</div>
+
+<!-- MODAL WHITELIST -->
+<div id="modal" class="modal hidden">
+    <div class="modal-content">
+        <button class="close-modal" data-close>×</button>
+        <span class="subtitle">WHITELIST</span>
+        <h2>Adicionar jogador</h2>
+        <p>Informe o nickname do Minecraft.</p>
+
+        <form id="whitelistForm">
+            <label>Nickname</label>
+            <input id="newPlayer" maxlength="16" placeholder="Ex: Steve" required>
+
+            <div class="modal-actions">
+                <button type="button" class="secondary-button" data-close>Cancelar</button>
+                <button type="submit" class="primary-button">Adicionar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
