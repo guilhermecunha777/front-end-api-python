@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Minecraft Panel</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main class="main">
+        <section class="server-card" style="max-width: 450px; margin: 100px auto;">
+            <form id="loginForm" style="width: 100%;">
+                <h2>Entrar no painel</h2>
+
+                <input id="email" type="email"
+                    placeholder="Email" required>
+
+                <input id="password" type="password"
+                    placeholder="Senha" required>
+
+                <button type="submit" class="success">
+                    Entrar
+                </button>
+
+                <p id="loginError"></p>
+            </form>
+        </section>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+
+    <script>
+        document.getElementById("loginForm")
+            .addEventListener("submit", async (event) => {
+
+                event.preventDefault();
+
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+                const error = document.getElementById("loginError");
+
+                try {
+                    const response = await Api.post(
+                        CONFIG.ENDPOINTS.login,
+                        { email, password }
+                    );
+
+                    const token = response.access_token || response.token;
+
+                    if (!token) {
+                        throw new Error("Token não retornado.");
+                    }
+
+                    Api.setToken(token);
+
+                    window.location.href = "index.html";
+
+                } catch (err) {
+                    error.textContent = err.message;
+                }
+            });
+    </script>
+</body>
+</html>
